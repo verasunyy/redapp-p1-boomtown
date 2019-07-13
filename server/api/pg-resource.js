@@ -1,18 +1,7 @@
-function tagsQueryString(tags, itemid, result) {
-  /**
-   * Challenge:
-   * This function is more than a little complicated.
-   *  - Can you refactor it to be simpler / more readable?
-   */
-  const length = tags.length;
-  return length === 0
-    ? `${result};`
-    : tags.shift() &&
-    tagsQueryString(
-      tags,
-      itemid,
-      `${result}($${tags.length + 1}, ${itemid})${length === 1 ? '' : ','}`
-    );
+
+function tagsQueryString(tags, itemId) {
+  const parts = tags.map((tag, i) => `($${i + 1}, ${itemId})`);
+  return parts.join(",") + ";";
 }
 
 module.exports = postgres => {
@@ -204,6 +193,10 @@ module.exports = postgres => {
               };
 
               const newItem = await postgres.query(addItemQuery);
+              // console.log(newItem.rows[0].id);
+              // console.log(item);
+              console.log(tags);
+
               // -------------------------------
 
               // Insert new Item
@@ -212,6 +205,14 @@ module.exports = postgres => {
 
               // Generate tag relationships query (use the'tagsQueryString' helper function provided)
               // @TODO
+              const itemId = newItem.rows[0].id;
+              const tagsId = tags.map(tag => tag.id);
+
+              const addItemTagsQuery = {
+                text: `INSERT INTO item_tags (tagid, itemid) VALUES ${tagsQueryString([...tagsId], itemId)}`,
+                values: tagsId
+              };
+              const itemTags = await postgres.query(addItemTagsQuery);
               // -------------------------------
 
               // Insert tags
