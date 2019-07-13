@@ -2,92 +2,56 @@
 
 ## Server
 
-Commands must be run from the `server` directory:
+Back-end application to support a local sharing economy. The app use PostgreSQL as a relational database to store shareable items and user info, Node.js/Express as its web server, and GraphQL for its client-facing API.
 
-### Installation
+### Schema
 
-```bash
-npm install
-```
+Type Item, User, Tag, Query and Mutation
 
-### Run
+### Resovers
 
-```bash
-npm run start:dev
-```
+using async await with try{} and catch(err){} and (parent, args, context, info)
 
-### Tests
-
-Just linting:
-
-```bash
-npm run lint
-```
-
-Run linting, and fix any errors:
-
-```bash
-npm run lint:fix
-```
-
-Run Jest tests:
+Example:
 
 ```
-npm run jest
+
+Item: {
+    async tags({ id }, args, { pgResource }, info) {
+        try {
+          return await pgResource.getTagsForItem(id);
+        } catch (e) {
+          throw ("tags not found");
+        }
+    }
+}
+
 ```
 
-Run Jest tests, and watch for changes:
+### Apolo Server
 
-```bash
-npm run jest:watch
+Add tag item relationship query:
+
+```
+function tagsQueryString(tags, itemId) {
+  const parts = tags.map((tag, i) => `($${i + 1}, ${itemId})`);
+  return parts.join(",") + ";";
+}
 ```
 
-Run all tests:
+using the tagsQueryString function to get the VALUES
 
-```bash
-npm run test
+```
+const itemId = newItem.rows[0].id;
+              const tagsId = tags.map(tag => tag.id);
+              const addItemTagsQuery = {
+                text: `INSERT INTO item_tags (tagid, itemid) VALUES ${tagsQueryString([...tagsId], itemId)}`,
+                values: tagsId
+              };
+              const itemTags = await postgres.query(addItemTagsQuery);
+
 ```
 
 ## Client
 
 Commands must be run from the `client` directory:
-
-### Installation
-
-```bash
-npm install
-```
-
-### Run
-
-```bash
-npm start
-```
-
-### Build
-
-```bash
-npm run build
-```
-
-### Tests
-
-Just linting:
-
-```bash
-npm run lint
-```
-
-Run linting, and fix any errors:
-
-```bash
-npm run lint:fix
-```
-
-Run all tests:
-
-```bash
-npm run test
-```
-
-
