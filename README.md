@@ -28,7 +28,7 @@ Item: {
 
 ```
 
-### Apolo Server
+### pg-resource
 
 Add tag item relationship query:
 
