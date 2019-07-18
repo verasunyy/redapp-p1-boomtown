@@ -4,7 +4,7 @@ import Items from './Items';
 import { Query } from 'react-apollo';
 import gql from "graphql-tag";
 import { ALL_ITEMS_QUERY } from '../../apollo/queries';
-import Gravatar from 'react-gravatar'
+
 
 // console.log(ALL_ITEMS_QUERY);
 // const GET_TAGS =
@@ -27,7 +27,7 @@ class ItemsContainer extends Component {
           if (loading) return "...";
           // <FullScreenLoader inverted />
           if (error) return <p>{`Error! ${error.message}`}</p>;
-          console.log(data);
+          console.log(data.items);
           return <Items items={data.items} />;
         }}
       </Query >
