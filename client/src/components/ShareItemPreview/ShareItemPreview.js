@@ -11,38 +11,40 @@ import moment from 'moment';
 
 import Gravatar from 'react-gravatar';
 
-const ItemCard = ({ item }) => (
+const ShareItemPreview = ({ }) => (
     <Card >
-        {console.log(item)}
         {/* className={classes.card} */}
         <CardActionArea>
             <CardMedia
                 // className={classes.media}
-                image="{item.imageurl}"
+                image=""
                 title="Item Image"
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="span">
-                    <Gravatar email="{item.itemowner.email}" />
+                    <Gravatar email="verasun@Live.com" />
                     <Typography variant="body2" color="textSecondary" component="span">
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {item.itemowner.fullname}
+                            Vera
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {moment(item.created).fromNow()}
+                            {/* {moment(item.created).fromNow()} */}
+                            2days ago
                         </Typography>
                     </Typography>
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {item.title}
+                        {/* {item.title} */}
+                        Name your Item
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {/* {console.log(item.tags)} */}
-                        {item.tags.reduce((acc, curr) => acc + curr.title + ", ", "").slice(0, -2)}
+                        {/* {item.tags.reduce((acc, curr) => acc + curr.title + ", ", "").slice(0, -2)} */}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {item.description}
+                        {/* {item.description} */}
+                        Describe your Item
                     </Typography>
                 </Typography>
             </CardContent>
@@ -54,4 +56,4 @@ const ItemCard = ({ item }) => (
         </CardActions>
     </Card>
 );
-export default ItemCard;
+export default ShareItemPreview;

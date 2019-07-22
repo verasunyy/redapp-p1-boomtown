@@ -1,6 +1,8 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
+import Grid from '@material-ui/core/Grid';
+// import ItemCard from '../ItemCard';
 /* 
   TODO: Create ShareItemFrom and ShareItemPreview in the components dir
   and call them from this file.
@@ -13,16 +15,20 @@ import styles from './styles';
 
 */
 // import ShareItemForm from '../../components/ShareItemForm';
-// import ShareItemPreview from '../../components/ShareItemPreview';
+import ShareItemPreview from '../../components/ShareItemPreview';
 
-const Share = ({ classes }) => {
+const Share = ({ classes, tags }) => {
   return (
     <div>
-      <p>
-        This is the share page located at <code>/share</code>.
-      </p>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <ShareItemPreview />
+        </Grid>
+      </Grid>
     </div>
   );
 };
+
+
 
 export default withStyles(styles)(Share);

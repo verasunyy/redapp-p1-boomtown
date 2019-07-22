@@ -6,7 +6,7 @@ const ItemsGrid = ({ items, size }) => (
     <div>
         <Grid container spacing={2}>
             {items.map((item) => (
-                <Grid container item xs={size}>
+                <Grid container item key={item.id} xs={size}>
                     {/* <p>{item.title}</p>
                     <p>{item.description}</p> */}
                     <ItemCard item={item} />

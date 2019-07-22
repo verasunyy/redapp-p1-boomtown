@@ -15,3 +15,4 @@ const Items = ({ classes, items }) => {
 };
 
 export default withStyles(styles)(Items);
+

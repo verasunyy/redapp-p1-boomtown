@@ -65,11 +65,14 @@ export const ALL_USER_ITEMS_QUERY = gql`
   ${ItemFields}
 `;
 
-// export const ALL_TAGS_QUERY = gql`
-//   query {
-//     # @TODO: Query the id and title fields for tags.
-//   }
-// `;
+export const ALL_TAGS_QUERY = gql`
+  query tags {
+    tags{
+    id
+    title
+    }
+  }
+`;
 
 // export const ADD_ITEM_MUTATION = gql`
 //   mutation addItem($item: NewItemInput!) {
