@@ -14,15 +14,23 @@ import Grid from '@material-ui/core/Grid';
   Hint: It should look like any other Item card.
 
 */
-// import ShareItemForm from '../../components/ShareItemForm';
+import ShareItemForm from '../../components/ShareItemForm';
 import ShareItemPreview from '../../components/ShareItemPreview';
 
+//TODO Pass the whole Tags
+//DO not need to maping through the title
 const Share = ({ classes, tags }) => {
+  // const tagsTitle = tags.map((tag) => tag.title);
+  // console.log("share.js" + tagsTitle);
   return (
     <div>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <ShareItemPreview />
+        </Grid>
+        <Grid item xs={6}>
+          {/* <ShareItemForm tags={tagsTitle} /> */}
+          <ShareItemForm tags={tags} />
         </Grid>
       </Grid>
     </div>

@@ -106,9 +106,9 @@ module.exports = app => {
 
       async addItem(parent, { item }, { pgResource }, info) {
         // image = await image;
-        // const user = await jwt.decode(context.token, app.get('JWT_SECRET')); 
+        const user = 2;
+        // const user = await jwt.decode(context.token, app.get('JWT_SECRET'));
         try {
-          const user = 'verasun'
           const newItem = await pgResource.saveNewItem({
             item: item,
             image: undefined,

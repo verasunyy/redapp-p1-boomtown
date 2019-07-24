@@ -121,8 +121,8 @@ module.exports = postgres => {
 
               // Generate new Item query
               const addItemQuery = {
-                text: `INSERT INTO items (title, description, ownerid) VALUES ($1, $2, 1) RETURNING *`,
-                values: [title, description]
+                text: `INSERT INTO items (title, description, ownerid) VALUES ($1, $2, $3) RETURNING *`,
+                values: [title, description,user]
               };
               const newItem = await postgres.query(addItemQuery);
 

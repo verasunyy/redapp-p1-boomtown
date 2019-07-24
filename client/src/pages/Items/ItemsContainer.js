@@ -5,7 +5,7 @@ import { Query } from 'react-apollo';
 import gql from "graphql-tag";
 import { ALL_ITEMS_QUERY } from '../../apollo/queries';
 
-
+import { ViewerContext } from "../../context/ViewerProvider";
 // console.log(ALL_ITEMS_QUERY);
 // const GET_TAGS =
 
@@ -21,15 +21,20 @@ import { ALL_ITEMS_QUERY } from '../../apollo/queries';
 
 class ItemsContainer extends Component {
   render() {
+
     return (
-      <Query query={ALL_ITEMS_QUERY} variables={{ filter: 2 }}>
-        {({ loading, error, data }) => {
-          if (loading) return <FullScreenLoader inverted />;
-          if (error) return <p>{`Error! ${error.message}`}</p>;
-          console.log(data.items);
-          return <Items items={data.items} />;
-        }}
-      </Query >
+      <ViewerContext.Consumer>
+        {({ viewer, loading }) => (
+          <Query query={ALL_ITEMS_QUERY} variables={{ filter: viewer.id }}>
+            {({ loading, error, data }) => {
+              if (loading) return <FullScreenLoader inverted />;
+              if (error) return <p>{`Error! ${error.message}`}</p>;
+              console.log(data.items);
+              return <Items items={data.items} />;
+            }}
+          </Query >
+        )}
+      </ViewerContext.Consumer>
     );
 
     // return (

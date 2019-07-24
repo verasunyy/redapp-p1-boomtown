@@ -5,13 +5,16 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ApolloProvider } from 'react-apollo';
 // @TODO: Uncomment each module as needed in your client app
 import { BrowserRouter } from 'react-router-dom'
-// import { Provider as ReduxProvider } from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux'
 // -------------------------------
 
 import registerServiceWorker from './registerServiceWorker';
 import theme from './theme';
 import client from './apollo';
-import AppRoutes from './routes'
+import AppRoutes from './routes';
+import store from './redux';
+import { ViewerProvider } from './context/ViewerProvider';
+
 /* 
 * Below in your <App />, wrap your pages in an <ApolloProvider /> component
 * and pass it `client` as the `client` prop value so they will
@@ -43,7 +46,6 @@ import AppRoutes from './routes'
 /**
  * @TODO: Add the Viewer Context
  *
- * import { ViewerProvider } from './context/ViewerProvider'
  *
  * Below in your <App />, wrap the <ViewerProvider /> component around
  * the <BrowserRouter /> component so the router is aware of whether a
@@ -56,17 +58,22 @@ import Items from './pages/Items';
 // -------------------------------
 
 import './index.css';
+// import { ViewerProvider } from './context/ViewerProvider';
 
 const App = () => {
   return (
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
-      <ApolloProvider client={client}>
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
-      </ApolloProvider>
-    </MuiThemeProvider>
+    <ReduxProvider store={store}>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <ApolloProvider client={client}>
+          <ViewerProvider>
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </ViewerProvider>
+        </ApolloProvider>
+      </MuiThemeProvider>
+    </ReduxProvider>
   );
 };
 

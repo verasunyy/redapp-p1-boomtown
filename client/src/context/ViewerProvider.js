@@ -1,19 +1,30 @@
 import { Query } from 'react-apollo';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { VIEWER_QUERY } from '../apollo/queries';
 
-const ViewerContext = React.createContext();
+export const ViewerContext = React.createContext();
 
-const ViewerProvider = ({ children }) => {
-  /**
-   * @TODO: Create the ViewerContext provider to supply information about
-   * the currently logged-in user throughout the application.
-   *
-   * Replace the <Fragment /> component with an Apollo <Query /> component
-   * with a <ViewerContext.Provider /> nested inside that wrap the children.
-   */
-  return <Fragment>{children}</Fragment>;
+export const ViewerProvider = ({ children }) => {
+  // return (
+  // <Query query={VIEWER_QUERY}>
+  //   {({ data, loading }) => {
+  //     const viewer = data && data.viewer ? data.viewer : null;
+
+  const viewer = { id: 4, email: 'test@example.com', fullname: 'Test User', bio: 'No bio' };
+  // const viewer = false;
+
+  const loading = false;
+
+  return (
+    <ViewerContext.Provider value={{ viewer, loading }}>
+      {children}
+    </ViewerContext.Provider>
+  );
+  //   }}
+  // </Query>
+  // );
+  // return <Fragment>{children}</Fragment>;
 };
 
-export { ViewerProvider };
-export default ViewerContext;
+// export { ViewerProvider };
+// export default ViewerContext;

@@ -5,24 +5,36 @@ import HomeContainer from "../pages/Home";
 import ShareContainer from "../pages/Share";
 import ProfileContainer from "../pages/Profile";
 
+import { ViewerContext } from "../context/ViewerProvider";
+// import { ViewerProvider } from "../context/ViewerProvider";
+import FullScreenLoader from '../components/FullScreenLoader';
+import PRoute from "../components/PrivateRoute";
+
 export default () => (
-  <Fragment>
-    {/* @TODO: Add your menu component here */}
-    <Switch>
-      {/**
-       * @TODO: Define routes here for: /items, /profile, /profile/:userid, and /share
-       *
-       * Provide a wildcard redirect to /items for any undefined route using <Redirect />.
-       *
-       * Later, we'll add logic to send users to one set of routes if they're logged in,
-       * or only view the /welcome page if they are not.
-       */}
-      <Route exact path="/items" component={ItemsContainer} />
-      <Route exact path="/welcome" component={HomeContainer} />
-      <Route exact path="/share" component={ShareContainer} />
-      <Route exact path="/profile" component={ProfileContainer} />
-      <Route exact path="/profile/:userid" component={ProfileContainer} />
-      <Redirect from="" to="/items" />
-    </Switch>
-  </Fragment>
-);
+  <ViewerContext.Consumer>
+    {({ viewer, loading }) => {
+      if (loading) return <FullScreenLoader />;
+      if (!viewer) {
+        return (
+          <Switch>
+            <Route exact path="/welcome" component={HomeContainer} />
+            <Redirect from="*" to="/welcome" />
+          </Switch>
+        );
+      }
+      return (
+        <Fragment>
+          {/* <MenuBar /> */}
+          <Switch>
+            <PRoute exact path="/items" component={ItemsContainer} />
+            <PRoute exact path="/share" component={ShareContainer} />
+            <PRoute exact path="/profile" component={ProfileContainer} />
+            <PRoute exact path="/profile/:userId" component={ProfileContainer} />
+            <Redirect from="*" to="/items" />
+          </Switch>
+        </Fragment>
+      );
+
+    }}
+  </ViewerContext.Consumer>
+)
