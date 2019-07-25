@@ -129,7 +129,12 @@ class ShareItemForm extends Component {
     return (
       <ViewerContext.Consumer>
         {({ viewer, loading }) => (
-          <Mutation mutation={ADD_ITEM_MUTATION}>
+          <Mutation
+          mutation={ADD_ITEM_MUTATION}
+          refetchQueries={() => [
+            { query: ALL_ITEMS_QUERY, variables: { id: viewer.id } },
+          ]}
+        >
 
             {(addItem, { data }) => (
               <div>
