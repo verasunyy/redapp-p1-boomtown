@@ -10,8 +10,8 @@ export const ViewerProvider = ({ children }) => {
   //   {({ data, loading }) => {
   //     const viewer = data && data.viewer ? data.viewer : null;
 
-  const viewer = { id: 4, email: 'test@example.com', fullname: 'Test User', bio: 'No bio' };
-  // const viewer = false;
+  // const viewer = { id: 4, email: 'test@example.com', fullname: 'Test User', bio: 'No bio' };
+  const viewer = false;
 
   const loading = false;
 
