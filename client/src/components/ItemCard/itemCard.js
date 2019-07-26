@@ -11,49 +11,54 @@ import moment from 'moment';
 
 import Gravatar from 'react-gravatar';
 import { ViewerContext } from "../../context/ViewerProvider";
+import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom';
 
 const ItemCard = ({ item }) => (
     <ViewerContext.Consumer>
         {({ viewer, loading }) => (
             <Card >
-                <CardActionArea>
-                    <CardMedia
-                        // className={classes.media}
-                        image={item.imageurl}
-                        title="Item Image"
+                <Link component={RouterLink} to={`/profile/${item.itemowner.id}`}>
+                    <CardActionArea>
+                        <CardMedia
+                            // className={classes.media}
+                            image={item.imageurl}
+                            title="Item Image"
 
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="span">
-                            <Gravatar email="{item.itemowner.email}" />
-                            <Typography variant="body2" color="textSecondary" component="span">
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="span">
+                                <Gravatar email="{item.itemowner.email}" />
+                                <Typography variant="body2" color="textSecondary" component="span">
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        {item.itemowner.fullname}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        {moment(item.created).fromNow()}
+                                    </Typography>
+                                </Typography>
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    {item.itemowner.fullname}
+                                    {item.title}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    {moment(item.created).fromNow()}
+                                    {/* {console.log(item.tags)} */}
+                                    {item.tags.reduce((acc, curr) => acc + curr.title + ", ", "").slice(0, -2)}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                    {item.description}
                                 </Typography>
                             </Typography>
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                {item.title}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                {/* {console.log(item.tags)} */}
-                                {item.tags.reduce((acc, curr) => acc + curr.title + ", ", "").slice(0, -2)}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                {item.description}
-                            </Typography>
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
+                        </CardContent>
+                    </CardActionArea>
+                </Link>
                 {item.itemowner.id && !item.borrower && viewer.id != item.itemowner.id && (
                     <CardActions>
                         <Button size="small" color="primary">
                             BORROW
                         </Button>
+
                     </CardActions>
                 )
                 }

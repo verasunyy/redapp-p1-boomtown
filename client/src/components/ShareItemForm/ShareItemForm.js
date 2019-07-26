@@ -23,7 +23,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 // import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import { Query } from 'react-apollo';
-import { ADD_ITEM_MUTATION } from '../../apollo/queries';
+import { ADD_ITEM_MUTATION, ALL_ITEMS_QUERY } from '../../apollo/queries';
 // import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 
@@ -115,7 +115,7 @@ class ShareItemForm extends Component {
         ...value,
         tags: this.applyTags(tags)
       }
-      await addItem({ variables: {item:item}})
+      await addItem({ variables: { item: item } })
     }
     catch (e) {
       throw new Error(e)
@@ -130,11 +130,11 @@ class ShareItemForm extends Component {
       <ViewerContext.Consumer>
         {({ viewer, loading }) => (
           <Mutation
-          mutation={ADD_ITEM_MUTATION}
-          refetchQueries={() => [
-            { query: ALL_ITEMS_QUERY, variables: { id: viewer.id } },
-          ]}
-        >
+            mutation={ADD_ITEM_MUTATION}
+            refetchQueries={() => [
+              { query: ALL_ITEMS_QUERY, variables: { id: viewer.id } },
+            ]}
+          >
 
             {(addItem, { data }) => (
               <div>

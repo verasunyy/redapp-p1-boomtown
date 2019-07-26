@@ -1,30 +1,19 @@
 const { AuthenticationError } = require('apollo-server-express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+// const { tokenConfig } = require("../config");
 
 function setCookie({ tokenName, token, res }) {
-  /**
-   *  @TODO: Authentication - Server
-   *
-   *  This helper function is responsible for attaching a cookie to the HTTP
-   *  response. 'apollo-server-express' handles returning the response to the client.
-   *  We added the 'req' object to the resolver context so we can use it to atttach the cookie.
-   *  The 'req' object comes from express.
-   *
-   *  A secure cookie that can be used to store a user's session data has the following properties:
-   *  1) It can't be accessed from JavaScript
-   *  2) It will only be sent via https (but we'll have to disable this in development using NODE_ENV)
-   *  3) A boomtown cookie should oly be valid for 2 hours.
-   */
-  // Refactor this method with the correct configuration values.
   res.cookie(tokenName, token, {
-    // @TODO: Supply the correct configuration values for our cookie here
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 2 // 2h
   });
-  // -------------------------------
 }
 
 function generateToken(user, secret) {
-  const { id, email, fullname, bio } = user; // Omit the password from the token
+  const { id, email } = user; // Omit the password from the token
+
   /**
    *  @TODO: Authentication - Server
    *
@@ -35,13 +24,15 @@ function generateToken(user, secret) {
    *  which can be decoded using the app secret to retrieve the stateless session.
    */
   // Refactor this return statement to return the cryptographic hash (the Token)
-  return '';
+  return jwt.sign({ id, email }, secret, {
+    expiresIn: '2h'
+  });
   // -------------------------------
 }
 
 module.exports = (app) => {
   return {
-    async signup(parent, args, context) {
+    async signup(parent, { user: { fullname, email, password } }, { req, pgResource }) {
       try {
         /**
          * @TODO: Authentication - Server
@@ -54,21 +45,21 @@ module.exports = (app) => {
          * and store that instead. The password can be decoded using the original password.
          */
         // @TODO: Use bcrypt to generate a cryptographic hash to conceal the user's password before storing it.
-        // const hashedPassword = '';
+        const hashedPassword = await bcrypt.hash(password, 10);
         // -------------------------------
 
-        const user = await context.pgResource.createUser({
-          fullname: args.user.fullname,
-          email: args.user.email,
-          password: args.user.password
+        const user = await pgResource.createUser({
+          fullname: fullname,
+          email: email,
+          password: hashedPassword
         });
         console.log(user)
 
-        // setCookie({
-        //   tokenName: app.get('JWT_COOKIE_NAME'),
-        //   token: generateToken(user, app.get('JWT_SECRET')),
-        //   res: context.req.res
-        // });
+        setCookie({
+          tokenName: app.get('JWT_COOKIE_NAME'),
+          token: generateToken(user, app.get('JWT_SECRET')),
+          res: req.res
+        });
 
         return {
           id: user.id

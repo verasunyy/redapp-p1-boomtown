@@ -103,12 +103,11 @@ module.exports = app => {
     Mutation: {
       ...authMutations(app),
       async addItem(parent, { item }, { pgResource }, info) {
-        // image = await image;
         const user = 2;
         // const user = await jwt.decode(context.token, app.get('JWT_SECRET'));
         try {
           const newItem = await pgResource.saveNewItem({
-            item: item,
+            item,
             image: undefined,
             user
           });

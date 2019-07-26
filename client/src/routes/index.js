@@ -9,7 +9,7 @@ import { ViewerContext } from "../context/ViewerProvider";
 // import { ViewerProvider } from "../context/ViewerProvider";
 import FullScreenLoader from '../components/FullScreenLoader';
 import PRoute from "../components/PrivateRoute";
-
+import MenuBar from "../components/MenuBar";
 export default () => (
   <ViewerContext.Consumer>
     {({ viewer, loading }) => {
@@ -24,7 +24,7 @@ export default () => (
       }
       return (
         <Fragment>
-          {/* <MenuBar /> */}
+          <MenuBar />
           <Switch>
             <PRoute exact path="/items" component={ItemsContainer} />
             <PRoute exact path="/share" component={ShareContainer} />
