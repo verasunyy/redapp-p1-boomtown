@@ -1,64 +1,97 @@
 
-import React from 'react';
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Link from '@material-ui/core/Link';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, withRouter } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import { LOGOUT_MUTATION } from '../../apollo/queries';
+import { Mutation } from "react-apollo";
+import client from "../../apollo";
+import AddCircleIcon from '@material-ui/icons/AddCircle'
+import PowerIcon from '@material-ui/icons/SettingsPowerRounded'
+import FingerPrintIcon from '@material-ui/icons/Fingerprint';
+import { withStyles } from '@material-ui/core/styles';
+import { ReactComponent as Logo } from "../../images/boomtown.svg"
 
+class MenuBar extends Component {
 
-export default function SimpleMenu() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    function handleClick(event) {
-        setAnchorEl(event.currentTarget);
+    state = {
+        anchorEl: null
     }
 
-    function handleClose() {
-        setAnchorEl(null);
+    handleClick = (event) => {
+        this.setState({ anchorEl: event.currentTarget });
     }
 
-    return (
-        <div>
-            <Link component={RouterLink} to="/share">
-                {/* {this.props.match.params.path !== "share" && */}
-                <Button>
-                    <Fab size="small" color="secondary" aria-label="add" >
-                        <AddIcon />
-                    </Fab>
-                    SHARE SOMETHING
-            </Button>
+    handleClose = () => {
+        this.setState({ anchorEl: null });
+    }
 
 
-                {/* } */}
-            </Link>
+    render() {
 
-            <IconButton
-                aria-label="More"
-                aria-controls="long-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-            >
-                <MoreVertIcon />
-            </IconButton>
-            <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-            >
-                <Link component={RouterLink} to="/profile">
-                    <MenuItem onClick={handleClose}>Your Porfile</MenuItem>
-                </Link>
-                <Link component={RouterLink} to="/welcome">
-                    <MenuItem onClick={handleClose}>Sign Out</MenuItem>
-                </Link>
-            </Menu>
-        </div >
-    );
-}  
+        const { location, classes } = this.props
+
+
+        const { anchorEl } = this.state;
+        return (
+
+
+            <div>
+                <Mutation
+                    mutation={LOGOUT_MUTATION}
+                    onCompleted={() => client.resetStore()}
+                >
+                    {(logout, { data }) => (
+                        < div >
+                            <Link component={RouterLink} to="/items">
+                                <Logo />
+                            </Link>
+
+                            <Link component={RouterLink} to="/share">
+                                {location.pathname !== "/share" &&
+                                    <Button>
+                                        <AddCircleIcon color="action" fontSize="large" />
+                                        SHARE SOMETHING
+                                    </Button>
+                                }
+                            </Link>
+                            <IconButton
+                                aria-label="More"
+                                aria-controls="long-menu"
+                                aria-haspopup="true"
+                                onClick={this.handleClick}
+                            >
+                                <MoreVertIcon />
+                            </IconButton>
+                            <Menu
+                                id="simple-menu"
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={this.handleClose}
+                            >
+                                <Link component={RouterLink} to="/profile">
+
+                                    <MenuItem onClick={this.handleClose}><FingerPrintIcon color="action" fontSize="large" />Your Porfile</MenuItem>
+                                </Link>
+                                <Link component={RouterLink} to="/welcome">
+
+                                    <MenuItem onClick={logout}><PowerIcon color="action" fontSize="large" />Sign Out</MenuItem>
+                                </Link>
+                            </Menu>
+                        </div >
+                    )}
+                </Mutation>
+            </div>
+
+        );
+    }
+}
+
+export default withRouter(MenuBar)

@@ -28,10 +28,10 @@ const ItemCard = ({ item }) => (
                         />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="span">
-                                <Gravatar email="{item.itemowner.email}" />
+                                <Gravatar email="{!item.itemowner.email?viewer.email:item.itemowner.email}" />
                                 <Typography variant="body2" color="textSecondary" component="span">
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                        {item.itemowner.fullname}
+                                        {!item.itemowner.fullname ? viewer.fullname : item.itemowner.fullname}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" component="p">
                                         {moment(item.created).fromNow()}
@@ -58,13 +58,12 @@ const ItemCard = ({ item }) => (
                         <Button size="small" color="primary">
                             BORROW
                         </Button>
-
                     </CardActions>
                 )
                 }
-                {console.log(item)}
-                {console.log(item.itemowner.id)}
-                {console.log(viewer.id)}
+                {/* {console.log(item)} */}
+                {/* {console.log(item.itemowner.id)} */}
+                {/* {console.log(viewer.id)} */}
 
             </Card>
         )

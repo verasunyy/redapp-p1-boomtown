@@ -110,7 +110,6 @@ class ShareItemForm extends Component {
 
   saveItem = async (value, tags, addItem) => {
     try {
-
       const item = {
         ...value,
         tags: this.applyTags(tags)
@@ -132,7 +131,7 @@ class ShareItemForm extends Component {
           <Mutation
             mutation={ADD_ITEM_MUTATION}
             refetchQueries={() => [
-              { query: ALL_ITEMS_QUERY, variables: { id: viewer.id } },
+              { query: ALL_ITEMS_QUERY, variables: { filter: viewer.id } },
             ]}
           >
 

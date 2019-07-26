@@ -25,8 +25,9 @@ class AuthDirective extends SchemaDirectiveVisitor {
     Object.keys(fields).forEach(fieldName => {
       const field = fields[fieldName];
       const { resolve = defaultFieldResolver } = field;
-      field.resolve = async function (parent, args, context, info) {
+      field.resolve = function (parent, args, context, info) {
         // Deorated reolve function.
+        console.log(context)
         if (
           !context.token &&
           context.req.body.operationName !== 'login' &&

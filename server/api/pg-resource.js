@@ -28,7 +28,7 @@ module.exports = postgres => {
     },
     async getUserAndPasswordForVerification(email) {
       const findUserQuery = {
-        text: '', // @TODO: Authentication - Server
+        text: 'SELECT * FROM users WHERE email=$1',
         values: [email]
       };
       try {
@@ -47,6 +47,7 @@ module.exports = postgres => {
       };
       try {
         const user = await postgres.query(findUserQuery);
+        console.log(user.rows)
         return user.rows[0];
       } catch (e) {
         throw ("User not found!")
