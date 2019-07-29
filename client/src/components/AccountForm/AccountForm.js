@@ -27,12 +27,6 @@ class AccountForm extends Component {
     };
   }
 
-  validate(email) {
-    if (!/@.*\./i.test(email)) {
-      return false;
-    }
-  }
-
   render() {
     const { classes, loginMutation, signupMutation } = this.props;
 

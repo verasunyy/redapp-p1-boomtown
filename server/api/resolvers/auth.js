@@ -1,7 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const { tokenConfig } = require("../config");
+
 
 function setCookie({ tokenName, token, res }) {
   res.cookie(tokenName, token, {
@@ -28,7 +28,6 @@ module.exports = (app) => {
           email: email,
           password: hashedPassword
         });
-        console.log(user)
 
         setCookie({
           tokenName: app.get('JWT_COOKIE_NAME'),
@@ -40,7 +39,6 @@ module.exports = (app) => {
           id: user.id
         };
       } catch (e) {
-        // console.log(e);
         throw new AuthenticationError(e);
       }
     },
@@ -48,9 +46,7 @@ module.exports = (app) => {
     async login(parent, { user: { email, password } }, { req, pgResource }) {
       try {
         const user = await pgResource.getUserAndPasswordForVerification(email);
-        // console.log(user);
         const valid = await bcrypt.compare(password, user.password);
-        // console.log(valid);
 
         if (!valid || !user) throw 'User was not found.';
         setCookie({
@@ -58,12 +54,10 @@ module.exports = (app) => {
           token: generateToken(user, app.get('JWT_SECRET')),
           res: req.res
         });
-        // console.log(user.id);
         return {
           id: user.id
         };
       } catch (e) {
-        console.log(e)
         throw new AuthenticationError(e);
       }
     },
