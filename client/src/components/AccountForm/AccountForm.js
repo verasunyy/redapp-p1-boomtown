@@ -33,14 +33,10 @@ class AccountForm extends Component {
     }
   }
 
-
-
-
   render() {
     const { classes, loginMutation, signupMutation } = this.props;
 
     return (
-      // @TODO: Wrap in Final Form <Form />
       <Form
         validate={validate.bind(this)}
         onSubmit={values => {
@@ -57,7 +53,6 @@ class AccountForm extends Component {
               <FormControl fullWidth className={classes.formControl}>
                 <InputLabel htmlFor="fullname">Username</InputLabel>
                 <Field name="fullname">
-                  {/* @TODO: Wrap in a Final Form <Field /> */}
                   {({ input, meta }) => {
                     return (
                       <Input
@@ -72,12 +67,10 @@ class AccountForm extends Component {
                     )
                   }}
                 </Field>
-                {/* @TODO: Close Final Form <Field /> */}
               </FormControl>
             )}
             <FormControl fullWidth className={classes.formControl}>
               <InputLabel htmlFor="email">Email</InputLabel>
-              {/* @TODO: Wrap in a Final Form <Field /> */}
               <Field name="email">
                 {({ input, meta }) => {
                   return (
@@ -93,11 +86,9 @@ class AccountForm extends Component {
                   )
                 }}
               </Field>
-              {/* @TODO: Close Final Form <Field /> */}
             </FormControl>
             <FormControl fullWidth className={classes.formControl}>
               <InputLabel htmlFor="password">Password</InputLabel>
-              {/* @TODO: Wrap in a Final Form <Field /> */}
               <Field name="password">
                 {({ input, meta }) => (
                   <Input
@@ -112,7 +103,6 @@ class AccountForm extends Component {
                 )
                 }
               </Field>
-              {/* @TODO: Close Final Form <Field /> */}
             </FormControl>
             <FormControl className={classes.formControl}>
               <Grid
@@ -166,11 +156,8 @@ class AccountForm extends Component {
       />//Close Final Form <Form />
     );
   }
-
 }
 
-// @TODO: Use compose to add the login and signup mutations to this components props.
-// @TODO: Refetch the VIEWER_QUERY to reload the app and access authenticated routes.
 const refetchQueries = [
   {
     query: VIEWER_QUERY
@@ -192,4 +179,4 @@ export default compose(
   }),
   withStyles(styles)
 )(AccountForm);
-// export default withStyles(styles)(AccountForm);
+

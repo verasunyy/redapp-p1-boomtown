@@ -6,7 +6,6 @@ const styles = theme => ({
         background: '#F9A826',
         padding: '5px',
     },
-
     logoContainer: {
         display: 'flex',
         justifyContent: 'center',
@@ -16,9 +15,7 @@ const styles = theme => ({
         width: '40px',
         height: '40px',
         marginLeft: '15px',
-
     },
-
     shareSomething: {
         fontSize: '12px',
         marginRight: '15px'

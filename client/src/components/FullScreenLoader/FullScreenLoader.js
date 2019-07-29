@@ -1,14 +1,14 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import Grid from '@material-ui/core/Grid';
 
 const FullScreenLoader = () => (
-    <div>
-        <CircularProgress size={80} />
-        {/* className={classes.progress} */}
-        <p>"For it is in gaving that we recieve."</p>
-    </div>
+    <Grid container justify={'center'} alignItems={'center'} alignContent={'center'}>
+        <Grid item>
+            <CircularProgress size={80} />
+            <p>"For it is in gaving that we recieve."</p>
+        </Grid>
+    </Grid>
 );
 
 export default FullScreenLoader;

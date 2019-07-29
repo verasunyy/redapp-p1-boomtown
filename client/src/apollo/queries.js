@@ -28,15 +28,6 @@ const ItemFields = gql`
     }
   }
 `;
-// export const ITEM_QUERY = gql`
-//   query item($id: ID!) {
-//     item(id:$id){
-//     ...ItemFields
-//     }
-//   }
-//   ${ItemFields}
-// `;
-// console.log("Item Query: " + ITEM_QUERY);
 
 export const ALL_ITEMS_QUERY = gql`
   query items($filter: ID!) {
@@ -74,8 +65,6 @@ export const ALL_TAGS_QUERY = gql`
   }
 `;
 
-// # @TODO: Pass the item and image into the addItem mutation as arguments
-// # and return the new item id when the mutation is complete.
 export const ADD_ITEM_MUTATION = gql`
   mutation addItem($item: NewItemInput!) {
     addItem(
@@ -85,10 +74,6 @@ export const ADD_ITEM_MUTATION = gql`
     }
   }
 `;
-
-/**
- * Auth-related queries and mutations.
- */
 
 export const VIEWER_QUERY = gql`
   query {

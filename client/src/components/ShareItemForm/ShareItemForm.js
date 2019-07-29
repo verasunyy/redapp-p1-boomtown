@@ -1,8 +1,4 @@
 import React, { Component } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import styles from "./styles";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -20,29 +16,19 @@ import {
 import { connect } from "react-redux";
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
-// import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
-import { Query } from 'react-apollo';
 import { ADD_ITEM_MUTATION, ALL_ITEMS_QUERY } from '../../apollo/queries';
-// import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-
 import { ViewerContext } from "../../context/ViewerProvider";
 class ShareItemForm extends Component {
   constructor({ props }) {
     super(props);
-    //
     this.state = {
       fileSelected: false,
       done: false,
       selectedTags: [],
     };
     this.fileInput = React.createRef();
-  }
-  // onSubmit(formState) {
-  // }
-  validate(formState) {
-    console.log("validating");
   }
 
   generateTagsText(tags, selected) {
@@ -119,7 +105,6 @@ class ShareItemForm extends Component {
     catch (e) {
       throw new Error(e)
     }
-
   }
 
   render() {
@@ -137,153 +122,152 @@ class ShareItemForm extends Component {
 
             {(addItem, { data }) => (
               <div>
-                {/* {console.log(formState)} */}
-                    <Form
-                      validate={formState => this.validate(formState)}
-                      onSubmit={value => this.saveItem(value, tags, addItem)}
-                      render={({ handleSubmit, pristine, invalid, form }) => (
-                        <form onSubmit={handleSubmit}>
-                          {/*  */}
-                          <FormSpy
-                            subscription={{ values: true }}
-                            component={({ values }) => {
-                              if (values) {
-                                this.dispatchUpdate(values, tags, updateItem);
-                              }
-                              return "";
-                            }}
-                          />
-                          <h1 className={classes.h1}>Share. Borrow. Prosper.</h1>
-                          <FormControl fullWidth className={classes.formControl}>
-                            <Field name="imageurl">
-                              {({ input, meta }) => {
-                                return (
-                                  <React.Fragment>
-                                    {!this.state.fileSelected ? (
-                                      <Button
-                                        size="medium"
-                                        color="primary"
-                                        variant="contained"
-                                        onClick={() => {
-                                          this.fileInput.current.click();
-                                        }}
-                                      >
-                                        <Typography>Select an Image</Typography>
-                                      </Button>
-                                    ) : (
-                                        <Button
-                                          size="medium"
-                                          color="primary"
-                                          variant="outlined"
-                                          onClick={() => {
-                                            this.resetFileInput();
-                                          }}
-                                        >
-                                          <Typography>Reset image</Typography>
-                                        </Button>
-                                      )}
-                                    <input
-                                      ref={this.fileInput}
-                                      hidden
-                                      type="file"
-                                      accept="image/*"
-                                      id="fileInput"
-                                      onChange={e => this.handleSelectFile(e)}
-                                    />
-                                  </React.Fragment>
-                                );
-                              }}
-                            </Field>
-                          </FormControl >
-                          <div>
-                            <Field
-                            
-                              name="title"
-                              render={({ input, meta }) => (
-                                <label>
-                                  <TextField
-                                  fullWidth
-                                    id="title"
-                                    inputProps={{ ...input }}
-                                    label="Name your Item"
-                                    value={input.value}
-                                    margin="normal"
-                                    className={classes.inputfield}
-                                  />
-                                </label>
-                              )}
-                            />
-                          </div>
-                          <div>
-                            <Field
-                            
-                              name="description"
-                              render={({ input, meta }) => (
-                                <label>
-                                  <TextField
-                                  fullWidth
-                                    id="description"
-                                    inputProps={{ ...input }}
-                                    label="Describe your Item"
-                                    value={input.value}
-                                    margin="normal"
-                                    className={classes.inputfield}
-                                  />
-                                </label>
-                              )}
-                            />
-                          </div>
-                          <div>
-                            <FormControl fullWidth className={classes.formControl}>
-                              <InputLabel htmlFor="age-simple">
-                                Add some tags
-                      </InputLabel>
-                              <Field name="tags">
-                                {({ input, meta }) => {
-                                  return (
-                                    <Select
-                                      multiple
-                                      value={this.state.selectedTags}
-                                      onChange={e => this.handleSelectTag(e)}
-                                      renderValue={selected => {
-                                        return this.generateTagsText(tags, selected);
+                <Form
+                  validate={formState => this.validate(formState)}
+                  onSubmit={value => this.saveItem(value, tags, addItem)}
+                  render={({ handleSubmit, pristine, invalid, form }) => (
+                    <form onSubmit={handleSubmit}>
+                      {/*  */}
+                      <FormSpy
+                        subscription={{ values: true }}
+                        component={({ values }) => {
+                          if (values) {
+                            this.dispatchUpdate(values, tags, updateItem);
+                          }
+                          return "";
+                        }}
+                      />
+                      <h1 className={classes.h1}>Share. Borrow. Prosper.</h1>
+                      <FormControl fullWidth className={classes.formControl}>
+                        <Field name="imageurl">
+                          {({ input, meta }) => {
+                            return (
+                              <React.Fragment>
+                                {!this.state.fileSelected ? (
+                                  <Button
+                                    size="medium"
+                                    color="primary"
+                                    variant="contained"
+                                    onClick={() => {
+                                      this.fileInput.current.click();
+                                    }}
+                                  >
+                                    <Typography>Select an Image</Typography>
+                                  </Button>
+                                ) : (
+                                    <Button
+                                      size="medium"
+                                      color="primary"
+                                      variant="outlined"
+                                      onClick={() => {
+                                        this.resetFileInput();
                                       }}
                                     >
-                                      {tags &&
-                                        tags.map(tag => (
-                                          <MenuItem key={tag.id} value={tag.id}>
-                                            <Checkbox
-                                              checked={
-                                                this.state.selectedTags.indexOf(
-                                                  tag.id,
-                                                ) > -1
-                                              }
-                                            />
-                                            <ListItemText primary={tag.title} />
-                                          </MenuItem>
-                                        ))}
-                                    </Select>
-                                  );
-                                }}
-                              </Field>
-                            </FormControl>
-                          </div>
+                                      <Typography>Reset image</Typography>
+                                    </Button>
+                                  )}
+                                <input
+                                  ref={this.fileInput}
+                                  hidden
+                                  type="file"
+                                  accept="image/*"
+                                  id="fileInput"
+                                  onChange={e => this.handleSelectFile(e)}
+                                />
+                              </React.Fragment>
+                            );
+                          }}
+                        </Field>
+                      </FormControl >
+                      <div>
+                        <Field
 
-                          <Button variant="contained"
-                            disabled={
-                              pristine || invalid
-                            }
-                            onSubmit={() => {
-                              form.reset();
-                              this.setState({ selectedTags: [] });
+                          name="title"
+                          render={({ input, meta }) => (
+                            <label>
+                              <TextField
+                                fullWidth
+                                id="title"
+                                inputProps={{ ...input }}
+                                label="Name your Item"
+                                value={input.value}
+                                margin="normal"
+                                className={classes.inputfield}
+                              />
+                            </label>
+                          )}
+                        />
+                      </div>
+                      <div>
+                        <Field
+
+                          name="description"
+                          render={({ input, meta }) => (
+                            <label>
+                              <TextField
+                                fullWidth
+                                id="description"
+                                inputProps={{ ...input }}
+                                label="Describe your Item"
+                                value={input.value}
+                                margin="normal"
+                                className={classes.inputfield}
+                              />
+                            </label>
+                          )}
+                        />
+                      </div>
+                      <div>
+                        <FormControl fullWidth className={classes.formControl}>
+                          <InputLabel htmlFor="age-simple">
+                            Add some tags
+                      </InputLabel>
+                          <Field name="tags">
+                            {({ input, meta }) => {
+                              return (
+                                <Select
+                                  multiple
+                                  value={this.state.selectedTags}
+                                  onChange={e => this.handleSelectTag(e)}
+                                  renderValue={selected => {
+                                    return this.generateTagsText(tags, selected);
+                                  }}
+                                >
+                                  {tags &&
+                                    tags.map(tag => (
+                                      <MenuItem key={tag.id} value={tag.id}>
+                                        <Checkbox
+                                          checked={
+                                            this.state.selectedTags.indexOf(
+                                              tag.id,
+                                            ) > -1
+                                          }
+                                        />
+                                        <ListItemText primary={tag.title} />
+                                      </MenuItem>
+                                    ))}
+                                </Select>
+                              );
                             }}
-                            color="primary"
-                            type="submit"
-                            className={classes.shareButton}>Share</Button>
+                          </Field>
+                        </FormControl>
+                      </div>
 
-                        </form>
-                      )}
-                    />
+                      <Button variant="contained"
+                        disabled={
+                          pristine || invalid
+                        }
+                        onSubmit={() => {
+                          form.reset();
+                          this.setState({ selectedTags: [] });
+                        }}
+                        color="primary"
+                        type="submit"
+                        className={classes.shareButton}>Share</Button>
+
+                    </form>
+                  )}
+                />
               </div>
             )}
           </Mutation>

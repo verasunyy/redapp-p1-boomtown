@@ -4,9 +4,7 @@ import ItemsContainer from "../pages/Items";
 import HomeContainer from "../pages/Home";
 import ShareContainer from "../pages/Share";
 import ProfileContainer from "../pages/Profile";
-
 import { ViewerContext } from "../context/ViewerProvider";
-// import { ViewerProvider } from "../context/ViewerProvider";
 import FullScreenLoader from '../components/FullScreenLoader';
 import PRoute from "../components/PrivateRoute";
 import MenuBar from "../components/MenuBar";

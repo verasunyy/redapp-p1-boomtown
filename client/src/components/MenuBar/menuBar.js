@@ -7,8 +7,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Link from '@material-ui/core/Link';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import { LOGOUT_MUTATION } from '../../apollo/queries';
 import { Mutation } from "react-apollo";
 import client from "../../apollo";
@@ -18,31 +16,21 @@ import FingerPrintIcon from '@material-ui/icons/Fingerprint';
 import { withStyles } from '@material-ui/core/styles';
 import { ReactComponent as Logo } from "../../images/boomtown.svg";
 import styles from "./styles"
-
 class MenuBar extends Component {
-
   state = {
     anchorEl: null
   }
-
   handleClick = (event) => {
     this.setState({ anchorEl: event.currentTarget });
   }
-
   handleClose = () => {
     this.setState({ anchorEl: null });
   }
 
-
   render() {
-
     const { location, classes } = this.props
-
-
     const { anchorEl } = this.state;
     return (
-
-
       <div>
         <Mutation
           mutation={LOGOUT_MUTATION}
@@ -61,10 +49,9 @@ class MenuBar extends Component {
                     <Button className={classes.shareSomething}>
                       <AddCircleIcon color="action" fontSize="small" className={classes.shareSomethingIcon} />
                       SHARE SOMETHING
-                                    </Button>
+                    </Button>
                   }
                 </Link>
-
                 <IconButton
                   aria-label="More"
                   aria-controls="long-menu"
@@ -74,7 +61,6 @@ class MenuBar extends Component {
                 >
                   <MoreVertIcon />
                 </IconButton>
-
                 <Menu
                   id="simple-menu"
                   anchorEl={anchorEl}
@@ -94,7 +80,6 @@ class MenuBar extends Component {
           )}
         </Mutation>
       </div>
-
     );
   }
 }
