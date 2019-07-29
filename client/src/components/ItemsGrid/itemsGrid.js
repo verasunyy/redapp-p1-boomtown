@@ -4,18 +4,14 @@ import Grid from '@material-ui/core/Grid';
 import ItemCard from '../ItemCard'
 import styles from './styles.js'
 import { withStyles } from '@material-ui/core/styles';
-const ItemsGrid = ({ items, size }) => (
+const ItemsGrid = ({ items }) => (
     <div className="root">
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
             {items.map((item) => (
-                <Grid item key={item.id} xs={size}>
-                    {/* <p>{item.title}</p>
-                    <p>{item.description}</p> */}
+                <Grid item key={item.id} sm={12} md={6} lg={4}>
                     <ItemCard item={item} />
                 </Grid>
-            )
-            )
-            }
+            ))}
         </Grid>
     </div>
 );

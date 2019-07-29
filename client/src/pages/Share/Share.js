@@ -23,12 +23,12 @@ const Share = ({ classes, tags }) => {
   // const tagsTitle = tags.map((tag) => tag.title);
   // console.log("share.js" + tagsTitle);
   return (
-    <div>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
+    <div className={classes.profile}>
+      <Grid container spacing={10} justify={'space-between'}>
+        <Grid item sm={6} md={6} lg={6}  >
           <ShareItemPreview />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item sm={6} md={6} lg={6}  >
           {/* <ShareItemForm tags={tagsTitle} /> */}
           <ShareItemForm tags={tags} />
         </Grid>

@@ -13,61 +13,59 @@ import Gravatar from 'react-gravatar';
 import { ViewerContext } from "../../context/ViewerProvider";
 import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+import styles from './styles.js'
 
-const ItemCard = ({ item }) => (
+const ItemCard = ({ item, classes }) => (
     <ViewerContext.Consumer>
         {({ viewer, loading }) => (
-            <Card >
-                <Link component={RouterLink} to={`/profile/${item.itemowner.id}`}>
-                    <CardActionArea>
-                        <CardMedia
-                            // className={classes.media}
-                            image={item.imageurl}
-                            title="Item Image"
-
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="span">
-                                <Gravatar email="{!item.itemowner.email?viewer.email:item.itemowner.email}" />
-                                <Typography variant="body2" color="textSecondary" component="span">
-                                    <Typography variant="body2" color="textSecondary" component="p">
-                                        {!item.itemowner.fullname ? viewer.fullname : item.itemowner.fullname}
+            <div className={classes.root}>
+                <Card className={classes.root}>
+                    <Link component={RouterLink} to={`/profile/${item.itemowner.id}`}>
+                        <CardActionArea>
+                            <CardMedia
+                                className={classes.media}
+                                image={item.imageurl}
+                                title="Item Image"
+                            />
+                            <CardContent className={classes.content}>
+                                <Typography gutterBottom variant="h5" component="span" className={classes.userInfo}>
+                                    <Gravatar email="{!item.itemowner.email?viewer.email:item.itemowner.email}" className={classes.avatar} />
+                                    <Typography variant="body2" color="textSecondary" component="div" className={classes.meta}>
+                                        <Typography variant="body2" color="textSecondary" component="p" className={classes.fullName}>
+                                            {!item.itemowner.fullname ? viewer.fullname : item.itemowner.fullname}
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            {moment(item.created).fromNow()}
+                                        </Typography>
                                     </Typography>
-                                    <Typography variant="body2" color="textSecondary" component="p">
-                                        {moment(item.created).fromNow()}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" component="div" className={classes.itemInfo}>
+                                    <Typography variant="body2" color="textSecondary" component="p" className={classes.itemTitle}>
+                                        {item.title}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p" className={classes.itemTags}>
+                                        {item.tags.reduce((acc, curr) => acc + curr.title + ", ", "").slice(0, -2)}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p" className={classes.itemDescription}>
+                                        {item.description}
                                     </Typography>
                                 </Typography>
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                <Typography variant="body2" color="textSecondary" component="p">
-                                    {item.title}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary" component="p">
-                                    {/* {console.log(item.tags)} */}
-                                    {item.tags.reduce((acc, curr) => acc + curr.title + ", ", "").slice(0, -2)}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary" component="p">
-                                    {item.description}
-                                </Typography>
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Link>
-                {item.itemowner.id && !item.borrower && viewer.id != item.itemowner.id && (
-                    <CardActions>
-                        <Button size="small" color="primary">
-                            BORROW
+                            </CardContent>
+                        </CardActionArea>
+                    </Link>
+                    {((!item.itemowner.id && viewer.id) || (item.itemowner.id && !item.borrower && viewer.id !== item.itemowner.id)) && (
+                        <CardActions>
+                            <Button size="large" className={classes.borrowButton}>
+                                BORROW
                         </Button>
-                    </CardActions>
-                )
-                }
-                {/* {console.log(item)} */}
-                {/* {console.log(item.itemowner.id)} */}
-                {/* {console.log(viewer.id)} */}
-
-            </Card>
+                        </CardActions>
+                    )
+                    }
+                </Card>
+            </div>
         )
         }
     </ViewerContext.Consumer>
 );
-export default ItemCard;
+export default withStyles(styles)(ItemCard);

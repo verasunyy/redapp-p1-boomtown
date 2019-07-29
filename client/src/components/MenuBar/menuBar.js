@@ -13,85 +13,90 @@ import { LOGOUT_MUTATION } from '../../apollo/queries';
 import { Mutation } from "react-apollo";
 import client from "../../apollo";
 import AddCircleIcon from '@material-ui/icons/AddCircle'
-import PowerIcon from '@material-ui/icons/SettingsPowerRounded'
+import PowerIcon from '@material-ui/icons/PowerSettingsNew';
 import FingerPrintIcon from '@material-ui/icons/Fingerprint';
 import { withStyles } from '@material-ui/core/styles';
-import { ReactComponent as Logo } from "../../images/boomtown.svg"
+import { ReactComponent as Logo } from "../../images/boomtown.svg";
+import styles from "./styles"
 
 class MenuBar extends Component {
 
-    state = {
-        anchorEl: null
-    }
+  state = {
+    anchorEl: null
+  }
 
-    handleClick = (event) => {
-        this.setState({ anchorEl: event.currentTarget });
-    }
+  handleClick = (event) => {
+    this.setState({ anchorEl: event.currentTarget });
+  }
 
-    handleClose = () => {
-        this.setState({ anchorEl: null });
-    }
-
-
-    render() {
-
-        const { location, classes } = this.props
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  }
 
 
-        const { anchorEl } = this.state;
-        return (
+  render() {
+
+    const { location, classes } = this.props
 
 
-            <div>
-                <Mutation
-                    mutation={LOGOUT_MUTATION}
-                    onCompleted={() => client.resetStore()}
-                >
-                    {(logout, { data }) => (
-                        < div >
-                            <Link component={RouterLink} to="/items">
-                                <Logo />
-                            </Link>
+    const { anchorEl } = this.state;
+    return (
 
-                            <Link component={RouterLink} to="/share">
-                                {location.pathname !== "/share" &&
-                                    <Button>
-                                        <AddCircleIcon color="action" fontSize="large" />
-                                        SHARE SOMETHING
+
+      <div>
+        <Mutation
+          mutation={LOGOUT_MUTATION}
+          onCompleted={() => client.resetStore()}
+        >
+          {(logout, { data }) => (
+            < div className={classes.container}>
+              <div className={classes.logoContainer}>
+                <Link component={RouterLink} to="/items">
+                  <Logo className={classes.logo} />
+                </Link>
+              </div>
+              <div>
+                <Link component={RouterLink} to="/share">
+                  {location.pathname !== "/share" &&
+                    <Button className={classes.shareSomething}>
+                      <AddCircleIcon color="action" fontSize="small" className={classes.shareSomethingIcon} />
+                      SHARE SOMETHING
                                     </Button>
-                                }
-                            </Link>
-                            <IconButton
-                                aria-label="More"
-                                aria-controls="long-menu"
-                                aria-haspopup="true"
-                                onClick={this.handleClick}
-                            >
-                                <MoreVertIcon />
-                            </IconButton>
-                            <Menu
-                                id="simple-menu"
-                                anchorEl={anchorEl}
-                                keepMounted
-                                open={Boolean(anchorEl)}
-                                onClose={this.handleClose}
-                            >
-                                <Link component={RouterLink} to="/profile">
+                  }
+                </Link>
 
-                                    <MenuItem onClick={this.handleClose}><FingerPrintIcon color="action" fontSize="large" />Your Porfile</MenuItem>
-                                </Link>
-                                <Link component={RouterLink} to="/welcome">
+                <IconButton
+                  aria-label="More"
+                  aria-controls="long-menu"
+                  aria-haspopup="true"
+                  onClick={this.handleClick}
+                  className={classes.dropDownMenuIcon}
+                >
+                  <MoreVertIcon />
+                </IconButton>
 
-                                    <MenuItem onClick={logout}><PowerIcon color="action" fontSize="large" />Sign Out</MenuItem>
-                                </Link>
-                            </Menu>
-                        </div >
-                    )}
-                </Mutation>
-            </div>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={this.handleClose}
+                >
+                  <Link component={RouterLink} to="/profile">
+                    <MenuItem onClick={this.handleClose} className={classes.dropDown}><FingerPrintIcon fontSize="small" className={classes.dropDownIcon} />Your Porfile</MenuItem>
+                  </Link>
+                  <Link component={RouterLink} to="/welcome">
+                    <MenuItem onClick={logout} className={classes.dropDown}><PowerIcon fontSize="small" className={classes.dropDownIcon} />Sign Out</MenuItem>
+                  </Link>
+                </Menu>
+              </div>
+            </div >
+          )}
+        </Mutation>
+      </div>
 
-        );
-    }
+    );
+  }
 }
 
-export default withRouter(MenuBar)
+export default withStyles(styles)(withRouter(MenuBar))

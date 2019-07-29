@@ -138,12 +138,10 @@ class ShareItemForm extends Component {
             {(addItem, { data }) => (
               <div>
                 {/* {console.log(formState)} */}
-                <Card>
-                  <CardContent>
                     <Form
                       validate={formState => this.validate(formState)}
                       onSubmit={value => this.saveItem(value, tags, addItem)}
-                      render={({ handleSubmit, pristine, invalid }) => (
+                      render={({ handleSubmit, pristine, invalid, form }) => (
                         <form onSubmit={handleSubmit}>
                           {/*  */}
                           <FormSpy
@@ -155,7 +153,7 @@ class ShareItemForm extends Component {
                               return "";
                             }}
                           />
-                          <h1>Share. Borrow. Prosper.</h1>
+                          <h1 className={classes.h1}>Share. Borrow. Prosper.</h1>
                           <FormControl fullWidth className={classes.formControl}>
                             <Field name="imageurl">
                               {({ input, meta }) => {
@@ -196,13 +194,15 @@ class ShareItemForm extends Component {
                                 );
                               }}
                             </Field>
-                          </FormControl>
+                          </FormControl >
                           <div>
                             <Field
+                            
                               name="title"
                               render={({ input, meta }) => (
                                 <label>
                                   <TextField
+                                  fullWidth
                                     id="title"
                                     inputProps={{ ...input }}
                                     label="Name your Item"
@@ -216,10 +216,12 @@ class ShareItemForm extends Component {
                           </div>
                           <div>
                             <Field
+                            
                               name="description"
                               render={({ input, meta }) => (
                                 <label>
                                   <TextField
+                                  fullWidth
                                     id="description"
                                     inputProps={{ ...input }}
                                     label="Describe your Item"
@@ -266,14 +268,22 @@ class ShareItemForm extends Component {
                               </Field>
                             </FormControl>
                           </div>
+
                           <Button variant="contained"
+                            disabled={
+                              pristine || invalid
+                            }
+                            onSubmit={() => {
+                              form.reset();
+                              this.setState({ selectedTags: [] });
+                            }}
                             color="primary"
-                            type="submit">Share</Button>
+                            type="submit"
+                            className={classes.shareButton}>Share</Button>
+
                         </form>
                       )}
                     />
-                  </CardContent>
-                </Card>
               </div>
             )}
           </Mutation>

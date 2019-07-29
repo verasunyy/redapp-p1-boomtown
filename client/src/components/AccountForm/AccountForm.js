@@ -27,7 +27,11 @@ class AccountForm extends Component {
     };
   }
 
-
+  validate(email) {
+    if (!/@.*\./i.test(email)) {
+      return false;
+    }
+  }
 
 
 
@@ -125,7 +129,6 @@ class AccountForm extends Component {
                   color="secondary"
                   disabled={
                     pristine || invalid
-                    // @TODO: This prop should depend on pristine or valid state of form
                   }
                 >
                   {this.state.formToggle ? 'Enter' : 'Create Account'}
